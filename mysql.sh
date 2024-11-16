@@ -9,6 +9,8 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+echo "please enter DB password"
+read -s mysql_root_password
 
 VALIDATE(){
     if [ $1 -eq 0 ]
@@ -45,7 +47,7 @@ if [ $? -eq 0 ]
 then
    echo -e "MYSQL root password is already setup.. $Y SKIPPING $N"
 else
-   mysql_secure_installation --set-root-pass ExpenseApp@1  &>>$LOGFILE
+   mysql_secure_installation --set-root-pass ${mysql_root_password}  &>>$LOGFILE
    VALIDATE $? "MySQL root password setup"
 fi
   
