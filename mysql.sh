@@ -34,7 +34,19 @@ systemctl enable mysqld &>>$LOGFILE
 VALIDATE $? "Enabling MySQL Server"
 
 systemctl start mysqld &>>$LOGFILE
-VALIDATE $? "starting MySQL server"
+VALIDATE $? "Starting MySQL server"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
-VALIDATE $? "Setting up root password"
+# mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
+# VALIDATE $? "Setting up root password"
+
+#Below code will be useful for idemponent nature
+mysql -h db.swamy.fun -uroot -pExpenseApp@1 -e 'SHOW DATABASES;' &>>$LOGFILE
+if [ $? -eq 0 ]
+then
+   echo -e "MYSQL root password is already setup.. $Y SKIPPING $N"
+else
+   mysql_secure_installation --set-root-pass ExpenseApp@1  &>>$LOGFILE
+   VALIDATE $? "MySQL root password setup"
+fi
+  
+   
