@@ -42,7 +42,7 @@ VALIDATE $? "Starting MySQL server"
 # VALIDATE $? "Setting up root password"
 
 #Below code will be useful for idemponent nature
-mysql -h db.swamy.fun -uroot -pExpenseApp@1 -e 'SHOW DATABASES;' &>>$LOGFILE
+mysql -h db.swamy.fun -uroot -p${mysql_root_password} -e 'SHOW DATABASES;' &>>$LOGFILE
 if [ $? -eq 0 ]
 then
    echo -e "MYSQL root password is already setup.. $Y SKIPPING $N"
