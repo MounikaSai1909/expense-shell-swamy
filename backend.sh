@@ -75,7 +75,7 @@ VALIDATE $? "starting and enabling backend"
 dnf install mysql -y &>>$LOGFILE
 VALIDATE $? "Installing MySQL client"
 
-mysql -h db.swamy.fun -uroot -p{mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+mysql -h db.swamy.fun -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "Schema loading"
 
 systemctl restart backend
