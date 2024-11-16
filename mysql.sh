@@ -24,9 +24,9 @@ VALIDATE(){
 
 if [ $USERID -eq 0 ]
 then
-   echo " You are a super user "
+   echo "You are a super user "
 else
-    echo " Please run this script with root access"
+    echo "Please run this script with root access"
 fi
 
 dnf install mysql-server -y &>>$LOGFILE
