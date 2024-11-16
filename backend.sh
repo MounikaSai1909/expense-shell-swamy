@@ -60,7 +60,7 @@ cd /app
 unzip /tmp/backend.zip
 VALIDATE $? "Extracted backend code"
 
-npm install
+npm install &>>$LOGFILE
 VALIDATE $? "Installing node js dependecies"
 
 cp /home/ec2-user/expense-shell/backend.serice /etc/systemd/system/backend.service
