@@ -9,6 +9,8 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+echo "please enter DB password"
+read -s mysql_root_password
 
 VALIDATE(){
     if [ $1 -eq 0 ]
@@ -48,6 +50,32 @@ else
     VALIDATE $? " Creating expense user "
 fi
     
+mkdir -p /app 
+VALIDATE $? "Creating app directory"
 
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE 
+VALIDATE $? "downloading the backend code"
 
+cd /app
+unzip /tmp/backend.zip
+VALIDATE $? "Extracted backend code"
 
+npm install
+VALIDATE $? "Installing node js dependecies"
+
+cp /home/ec2-user/expense-shell/backend.serice /etc/systemd/system/backend.service
+VALIDATE $? "copied backend service"
+
+systemctl daemon-reload &>>$LOGFILE
+systemctl start backend &>>$LOGFILE 
+systemctl enable backend &>>$LOGFILE
+VALIDATE $? "starting and enabling backend"
+
+dnf install mysql -y &>>$LOGFILE
+VALIDATE $? "Installing MySQL client"
+
+mysql -h db.swamy.fun -uroot -p{mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+VALIDATE $? "Schema loading"
+
+systemctl restart backend
+VALIDATE $? "restarting backend"
