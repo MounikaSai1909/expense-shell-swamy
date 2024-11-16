@@ -57,13 +57,14 @@ curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expen
 VALIDATE $? "downloading the backend code"
 
 cd /app
-unzip /tmp/backend.zip
+rm -rf /app/*
+unzip /tmp/backend.zip &>>$LOGFILE
 VALIDATE $? "Extracted backend code"
 
 npm install &>>$LOGFILE
 VALIDATE $? "Installing node js dependecies"
 
-cp /home/ec2-user/expense-shell/backend.serice /etc/systemd/system/backend.service
+cp /home/ec2-user/expense-shell-swamy/backend.serice /etc/systemd/system/backend.service
 VALIDATE $? "copied backend service"
 
 systemctl daemon-reload &>>$LOGFILE
