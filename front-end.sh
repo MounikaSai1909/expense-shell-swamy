@@ -42,7 +42,7 @@ curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expe
 VALIDATE $? "Downloading front end code"
 
 cd /usr/share/nginx/html
-unzip /tmp/frontend.zip
+unzip /tmp/frontend.zip &>>$LOGFILE
 VALIDATE $? "Extracting frontend code"
 
 cp /home/ec2-user/expense-shell-swamy/expense.conf /etc/nginx/default.d/expense.conf
